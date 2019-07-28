@@ -1,0 +1,9 @@
+start INP
+SUB one
+JPZ oneent
+JPA start
+end HLT
+oneent LDA one
+OUT
+JPA end
+one DAT 1

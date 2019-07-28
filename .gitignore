@@ -50,3 +50,11 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Other files
+/CMakeLists.txt
+/config.log
+/config.status
+/.deps/
+/autom4te.cache/
+/stamp-h1
