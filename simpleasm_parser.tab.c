@@ -109,6 +109,12 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 11 "simpleasm_parser.y"
+
+    #include "simpleasm.h"
+
+#line 118 "simpleasm_parser.tab.c"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -144,7 +150,7 @@ union YYSTYPE
   unsigned int* operation_arg;
   /* address  */
   unsigned int* address;
-#line 148 "simpleasm_parser.tab.c"
+#line 154 "simpleasm_parser.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -450,8 +456,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    27,    27,    28,    32,    33,    37,    48,    48,    48,
-      50,    50
+       0,    31,    31,    32,    36,    37,    41,    52,    52,    52,
+      54,    54
 };
 #endif
 
@@ -1233,19 +1239,19 @@ yyreduce:
   switch (yyn)
     {
   case 4:
-#line 32 "simpleasm_parser.y"
+#line 36 "simpleasm_parser.y"
     { add_operation_label((yyvsp[-1].LABEL), (yyvsp[0].operation_call)); }
-#line 1239 "simpleasm_parser.tab.c"
-    break;
-
-  case 5:
-#line 33 "simpleasm_parser.y"
-    { add_operation((yyvsp[0].operation_call)); }
 #line 1245 "simpleasm_parser.tab.c"
     break;
 
-  case 6:
+  case 5:
 #line 37 "simpleasm_parser.y"
+    { add_operation((yyvsp[0].operation_call)); }
+#line 1251 "simpleasm_parser.tab.c"
+    break;
+
+  case 6:
+#line 41 "simpleasm_parser.y"
     {
         operation *op = malloc(sizeof(operation));
         op->operation = malloc(sizeof(char) * (strlen((yyvsp[-1].OPERATION)) + 1));
@@ -1255,35 +1261,35 @@ yyreduce:
 
         (yyval.operation_call) = op;
     }
-#line 1259 "simpleasm_parser.tab.c"
-    break;
-
-  case 7:
-#line 48 "simpleasm_parser.y"
-    { (yyval.operation_arg) = 0; }
 #line 1265 "simpleasm_parser.tab.c"
     break;
 
-  case 9:
-#line 48 "simpleasm_parser.y"
-    { unsigned int *tmp = malloc(sizeof(unsigned int)); *tmp = (yyvsp[0].NUM); (yyval.operation_arg) = tmp; }
+  case 7:
+#line 52 "simpleasm_parser.y"
+    { (yyval.operation_arg) = 0; }
 #line 1271 "simpleasm_parser.tab.c"
     break;
 
-  case 10:
-#line 50 "simpleasm_parser.y"
-    { unsigned int *tmp = malloc(sizeof(unsigned int)); *tmp = (yyvsp[0].ADDRESS); (yyval.address) = tmp; }
+  case 9:
+#line 52 "simpleasm_parser.y"
+    { unsigned int *tmp = malloc(sizeof(unsigned int)); *tmp = (yyvsp[0].NUM); (yyval.operation_arg) = tmp; }
 #line 1277 "simpleasm_parser.tab.c"
     break;
 
-  case 11:
-#line 50 "simpleasm_parser.y"
-    { (yyval.address) = add_or_find_label_address((yyvsp[0].IDENTIFIER)); }
+  case 10:
+#line 54 "simpleasm_parser.y"
+    { unsigned int *tmp = malloc(sizeof(unsigned int)); *tmp = (yyvsp[0].ADDRESS); (yyval.address) = tmp; }
 #line 1283 "simpleasm_parser.tab.c"
     break;
 
+  case 11:
+#line 54 "simpleasm_parser.y"
+    { (yyval.address) = add_or_find_label_address((yyvsp[0].IDENTIFIER)); }
+#line 1289 "simpleasm_parser.tab.c"
+    break;
 
-#line 1287 "simpleasm_parser.tab.c"
+
+#line 1293 "simpleasm_parser.tab.c"
 
       default: break;
     }
