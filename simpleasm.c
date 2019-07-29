@@ -7,16 +7,16 @@
 #include "simpleasm.h"
 #include "lex.yy.h"
 
-const unsigned short INST_HLT = 0x00;
-const unsigned short INST_LDA = 0x01;
-const unsigned short INST_JPA = 0x02;
-const unsigned short INST_JPZ = 0x03;
-const unsigned short INST_JPP = 0x04;
-const unsigned short INST_ADD = 0x05;
-const unsigned short INST_SUB = 0x06;
-const unsigned short INST_STO = 0x07;
-const unsigned short INST_OUT = 0x08;
-const unsigned short INST_INP = 0x09;
+#define INST_HLT 0x00
+#define INST_LDA 0x01
+#define INST_JPA 0x02
+#define INST_JPZ 0x03
+#define INST_JPP 0x04
+#define INST_ADD 0x05
+#define INST_SUB 0x06
+#define INST_STO 0x07
+#define INST_OUT 0x08
+#define INST_INP 0x09
 
 unsigned short label_count = 0;
 label_definition **label_definitions;
