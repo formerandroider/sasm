@@ -43,12 +43,6 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
-/* "%code requires" blocks.  */
-#line 11 "simpleasm_parser.y"
-
-    #include "simpleasm.h"
-
-#line 52 "simpleasm_parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -84,7 +78,7 @@ union YYSTYPE
   unsigned int* operation_arg;
   /* address  */
   unsigned int* address;
-#line 88 "simpleasm_parser.tab.h"
+#line 82 "simpleasm_parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

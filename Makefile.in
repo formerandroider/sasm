@@ -102,8 +102,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_sasm_OBJECTS = simpleasm.$(OBJEXT) simpleasm_parser.tab.$(OBJEXT) \
-	lex.yy.$(OBJEXT)
+am_sasm_OBJECTS = simpleasm.$(OBJEXT) ley.yy.$(OBJEXT) \
+	simpleasm_parser.tab.$(OBJEXT)
 sasm_OBJECTS = $(am_sasm_OBJECTS)
 sasm_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -121,7 +121,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/lex.yy.Po ./$(DEPDIR)/simpleasm.Po \
+am__depfiles_remade = ./$(DEPDIR)/ley.yy.Po ./$(DEPDIR)/simpleasm.Po \
 	./$(DEPDIR)/simpleasm_parser.tab.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
@@ -166,7 +166,7 @@ CTAGS = ctags
 CSCOPE = cscope
 AM_RECURSIVE_TARGETS = cscope
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in compile \
-	depcomp install-sh missing
+	depcomp install-sh missing ylwrap
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -271,7 +271,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-sasm_SOURCES = simpleasm.c simpleasm_parser.tab.c lex.yy.c
+AM_YFLAGS = -d
+sasm_SOURCES = simpleasm.c ley.yy.c simpleasm_parser.tab.c
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -378,7 +379,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lex.yy.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ley.yy.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simpleasm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simpleasm_parser.tab.Po@am__quote@ # am--include-marker
 
@@ -670,7 +671,7 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f ./$(DEPDIR)/lex.yy.Po
+		-rm -f ./$(DEPDIR)/ley.yy.Po
 	-rm -f ./$(DEPDIR)/simpleasm.Po
 	-rm -f ./$(DEPDIR)/simpleasm_parser.tab.Po
 	-rm -f Makefile
@@ -720,7 +721,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f ./$(DEPDIR)/lex.yy.Po
+		-rm -f ./$(DEPDIR)/ley.yy.Po
 	-rm -f ./$(DEPDIR)/simpleasm.Po
 	-rm -f ./$(DEPDIR)/simpleasm_parser.tab.Po
 	-rm -f Makefile

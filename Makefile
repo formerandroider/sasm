@@ -102,8 +102,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_sasm_OBJECTS = simpleasm.$(OBJEXT) simpleasm_parser.tab.$(OBJEXT) \
-	lex.yy.$(OBJEXT)
+am_sasm_OBJECTS = simpleasm.$(OBJEXT) simpleasm_parser.$(OBJEXT) \
+	lexer.$(OBJEXT)
 sasm_OBJECTS = $(am_sasm_OBJECTS)
 sasm_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -121,8 +121,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/lex.yy.Po ./$(DEPDIR)/simpleasm.Po \
-	./$(DEPDIR)/simpleasm_parser.tab.Po
+am__depfiles_remade = ./$(DEPDIR)/lexer.Po ./$(DEPDIR)/simpleasm.Po \
+	./$(DEPDIR)/simpleasm_parser.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -136,6 +136,19 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
 am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
+LEXCOMPILE = $(LEX) $(AM_LFLAGS) $(LFLAGS)
+AM_V_LEX = $(am__v_LEX_$(V))
+am__v_LEX_ = $(am__v_LEX_$(AM_DEFAULT_VERBOSITY))
+am__v_LEX_0 = @echo "  LEX     " $@;
+am__v_LEX_1 = 
+YLWRAP = $(top_srcdir)/ylwrap
+am__yacc_c2h = sed -e s/cc$$/hh/ -e s/cpp$$/hpp/ -e s/cxx$$/hxx/ \
+		   -e s/c++$$/h++/ -e s/c$$/h/
+YACCCOMPILE = $(YACC) $(AM_YFLAGS) $(YFLAGS)
+AM_V_YACC = $(am__v_YACC_$(V))
+am__v_YACC_ = $(am__v_YACC_$(AM_DEFAULT_VERBOSITY))
+am__v_YACC_0 = @echo "  YACC    " $@;
+am__v_YACC_1 = 
 SOURCES = $(sasm_SOURCES)
 DIST_SOURCES = $(sasm_SOURCES)
 am__can_run_installinfo = \
@@ -166,7 +179,8 @@ CTAGS = ctags
 CSCOPE = cscope
 AM_RECURSIVE_TARGETS = cscope
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in compile \
-	depcomp install-sh missing
+	depcomp install-sh lexer.c missing simpleasm_parser.c \
+	simpleasm_parser.h ylwrap
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -211,6 +225,9 @@ INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
+LEX = flex
+LEXLIB = -ll
+LEX_OUTPUT_ROOT = lex.yy
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
@@ -229,6 +246,8 @@ SET_MAKE =
 SHELL = /bin/sh
 STRIP = 
 VERSION = 0.1
+YACC = bison -y
+YFLAGS = 
 abs_builddir = /Users/liam/CLionProjects/SimpleASM
 abs_srcdir = /Users/liam/CLionProjects/SimpleASM
 abs_top_builddir = /Users/liam/CLionProjects/SimpleASM
@@ -271,12 +290,14 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-sasm_SOURCES = simpleasm.c simpleasm_parser.tab.c lex.yy.c
-all: config.h
+AM_YFLAGS = -d
+BUILT_SOURCES = simpleasm_parser.h lexer.h
+sasm_SOURCES = simpleasm.c simpleasm_parser.y lexer.l
+all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
+.SUFFIXES: .c .l .o .obj .y
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -367,6 +388,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+simpleasm_parser.h: simpleasm_parser.c
+	@if test ! -f $@; then rm -f simpleasm_parser.c; else :; fi
+	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) simpleasm_parser.c; else :; fi
 
 sasm$(EXEEXT): $(sasm_OBJECTS) $(sasm_DEPENDENCIES) $(EXTRA_sasm_DEPENDENCIES) 
 	@rm -f sasm$(EXEEXT)
@@ -378,9 +402,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/lex.yy.Po # am--include-marker
+include ./$(DEPDIR)/lexer.Po # am--include-marker
 include ./$(DEPDIR)/simpleasm.Po # am--include-marker
-include ./$(DEPDIR)/simpleasm_parser.tab.Po # am--include-marker
+include ./$(DEPDIR)/simpleasm_parser.Po # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -401,6 +425,12 @@ am--depfiles: $(am__depfiles_remade)
 #	$(AM_V_CC)source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(AM_V_CC_no)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.l.c:
+	$(AM_V_LEX)$(am__skiplex) $(SHELL) $(YLWRAP) $< $(LEX_OUTPUT_ROOT).c $@ -- $(LEXCOMPILE)
+
+.y.c:
+	$(AM_V_YACC)$(am__skipyacc) $(SHELL) $(YLWRAP) $< y.tab.c $@ y.tab.h `echo $@ | $(am__yacc_c2h)` y.output $*.output -- $(YACCCOMPILE)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -628,13 +658,15 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
-check: check-am
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-am
 all-am: Makefile $(PROGRAMS) config.h
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-am
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -664,15 +696,19 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-rm -f lexer.c
+	-rm -f simpleasm_parser.c
+	-rm -f simpleasm_parser.h
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f ./$(DEPDIR)/lex.yy.Po
+		-rm -f ./$(DEPDIR)/lexer.Po
 	-rm -f ./$(DEPDIR)/simpleasm.Po
-	-rm -f ./$(DEPDIR)/simpleasm_parser.tab.Po
+	-rm -f ./$(DEPDIR)/simpleasm_parser.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -720,9 +756,9 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f ./$(DEPDIR)/lex.yy.Po
+		-rm -f ./$(DEPDIR)/lexer.Po
 	-rm -f ./$(DEPDIR)/simpleasm.Po
-	-rm -f ./$(DEPDIR)/simpleasm_parser.tab.Po
+	-rm -f ./$(DEPDIR)/simpleasm_parser.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -740,7 +776,7 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: all install-am install-strip
+.MAKE: all check install install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am am--depfiles am--refresh check \
 	check-am clean clean-binPROGRAMS clean-cscope clean-generic \

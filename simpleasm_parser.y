@@ -8,10 +8,6 @@
     }
 %}
 
-%code requires {
-    #include "simpleasm.h"
-}
-
 %define parse.error verbose
 %define api.value.type union
 

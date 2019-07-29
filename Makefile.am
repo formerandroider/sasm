@@ -1,2 +1,3 @@
 bin_PROGRAMS = sasm
-sasm_SOURCES = simpleasm.c simpleasm_parser.tab.c lex.yy.c
+AM_YFLAGS = -d
+sasm_SOURCES = simpleasm.c ley.yy.c simpleasm_parser.tab.c
