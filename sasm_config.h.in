@@ -1,0 +1,11 @@
+//
+// Created by Liam Williams on 2019-07-30.
+//
+
+#ifndef SASM_SASM_CONFIG_H
+#define SASM_SASM_CONFIG_H
+
+#define sasm_VERSION_MAJOR @sasm_VERSION_MAJOR@
+#define sasm_VERSION_MINOR @sasm_VERSION_MINOR@
+
+#endif //SASM_SASM_CONFIG_H

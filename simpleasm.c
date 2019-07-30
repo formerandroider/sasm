@@ -29,30 +29,20 @@ operation **operations;
 
 extern void yyparse(void);
 
-int main(int argc, char **argv) {
+void set_file(FILE *in) {
+    yyset_in(in);
+}
 
-    FILE *file = NULL;
-    char *pname = argv[0];
-
-    if (argc < 2) {
-        usage(pname);
-    }
-
-    if ((file = fopen(argv[1], "r")) == NULL) {
-        fprintf(stderr, "simpleasm: %s: %s\n", argv[1], strerror(errno));
-        exit(1);
-    }
-
-    yyset_in(file);
+void do_parse() {
     yyparse();
 
     for (int i = 0; i < operation_count; i++) {
         add_opcode(i, operations[i]);
     }
+}
 
+void start() {
     run_opcodes();
-
-    return 0;
 }
 
 void decode_opcode(unsigned short opcode, unsigned short *operation, unsigned short *address) {
@@ -212,11 +202,6 @@ unsigned int get_opcode(operation *operation1) {
     }
 
     return 0;
-}
-
-void usage(char *pname) {
-    printf("Usage: %s <file>\n", pname);
-    exit(1);
 }
 
 int label_array_size_increase(size_t count) {
