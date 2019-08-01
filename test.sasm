@@ -1,5 +1,6 @@
 start INP
 SUB one
+-- Jump if accumulator is zero
 JPZ oneent
 JPA start
 end HLT

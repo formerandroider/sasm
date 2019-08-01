@@ -1,6 +1,5 @@
 %{
   #include "simpleasm_parser.tab.h"
-  int yylex(void);
 %}
 
 %option noyywrap
@@ -11,12 +10,15 @@ DIGIT [0-9]
 
 %%
 
-<INITIAL>[a-z]+ {
+<INITIAL>^--(.*)\n
+<INITIAL>[a-z]+" "[A-Z]{3} {
+    yyless(strlen(yytext)-3);
     yylval.LABEL = malloc(sizeof(char) * (strlen(yytext) + 1));
     sscanf(yytext, "%s", yylval.LABEL);
+    BEGIN(IN_LABEL);
     return LABEL;
 }
-[A-Z]{3} {
+<INITIAL,IN_LABEL>[A-Z]{3} {
     if (yylval.OPERATION != NULL) {
        //yyfree(yylval.OPERATION);
     }
