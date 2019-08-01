@@ -1,20 +1,11 @@
-project(sasm DESCRIPTION "sasm intepreter")
-cmake_minimum_required(VERSION 2.4)
-macro(use_c99)
-    if (CMAKE_VERSION VERSION_LESS "3.1")
-        if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
-            set (CMAKE_C_FLAGS "-std=gnu99 ${CMAKE_C_FLAGS}")
-        endif ()
-    else ()
-        set (CMAKE_C_STANDARD 99)
-    endif ()
-endmacro(use_c99)
+cmake_minimum_required(VERSION 3.14)
 
+project(sasm DESCRIPTION "sasm intepreter")
 set(sasm_VERSION_MAJOR 0)
 set(sasm_VERSION_MINOR 1)
 include(GNUInstallDirs)
 
-use_c99()
+set(CMAKE_C_STANDARD 99)
 
 find_package(FLEX)
 flex_target(sasm_lexer lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c)
