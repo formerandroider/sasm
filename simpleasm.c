@@ -104,7 +104,7 @@ unsigned int *add_label_placeholder(char *label) {
 void run_instruction(unsigned short instruction, const unsigned short *address, short *accumulator,
                      unsigned short *program_counter) {
 
-    unsigned short increment_program_counter = 1;
+    unsigned short program_counter_increment = +1;
 
     char *input = malloc(sizeof(char) * 100);
     switch (instruction) {
@@ -134,7 +134,7 @@ void run_instruction(unsigned short instruction, const unsigned short *address, 
             }
         case INST_JPA:
             *program_counter = *address;
-            increment_program_counter = 0;
+            program_counter_increment = 0;
             break;
         case INST_LDA:
             *accumulator = memory[*address];
@@ -153,7 +153,7 @@ void run_instruction(unsigned short instruction, const unsigned short *address, 
             break;
     }
 
-    if (increment_program_counter) {
+    if (program_counter_increment) {
         (*program_counter)++;
     }
 }
