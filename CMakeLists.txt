@@ -1,3 +1,4 @@
+project(sasm DESCRIPTION "sasm intepreter")
 cmake_minimum_required(VERSION 2.4)
 cmake_policy(SET CMP0042 NEW)
 macro(use_c99)
@@ -10,7 +11,6 @@ macro(use_c99)
     endif ()
 endmacro(use_c99)
 
-project(sasm DESCRIPTION "sasm intepreter")
 set(sasm_VERSION_MAJOR 0)
 set(sasm_VERSION_MINOR 1)
 include(GNUInstallDirs)
