@@ -58,3 +58,4 @@ dkms.conf
 /autom4te.cache/
 /stamp-h1
 /cmake-build-*
+/.idea
