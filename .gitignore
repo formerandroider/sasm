@@ -59,3 +59,5 @@ dkms.conf
 /stamp-h1
 /cmake-build-*
 /.idea
+
+.DS_Store
