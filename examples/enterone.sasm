@@ -1,0 +1,16 @@
+-- Request input and store in accumulator
+start INP
+-- Subtract one from accumulator
+SUB one
+-- Jump if accumulator is zero
+JPZ oneent
+-- Otherwise, go back to the beginning
+JPA start
+-- Load a '1' from the memory
+oneent LDA one
+-- Output it to the display
+OUT
+-- Finish the application
+HLT
+-- Store a '1' in the memory with a label
+one DAT 1
