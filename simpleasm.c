@@ -4,8 +4,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 #include "simpleasm.h"
-#include "lex.yy.h"
 
 #define INST_HLT 0x00
 #define INST_LDA 0x01

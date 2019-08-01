@@ -1,11 +1,14 @@
 %{
     #include <string.h>
-    #include "lex.yy.h"
-    
+    #include <stdio.h>
+    #include <stdlib.h>
+
     void yyerror(char const *estring) {
         fprintf(stderr, "%s\n", estring);
         exit(1);
     }
+
+    extern int yylex(void);
 %}
 
 %code requires {

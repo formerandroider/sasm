@@ -39,4 +39,9 @@ void add_opcode(int, operation*);
 
 void run_instruction(unsigned short, const unsigned short *, short *, unsigned short *);
 
+// Lexer methods
+
+extern int yylex(void);
+extern void yyset_in(FILE*);
+
 #endif //SIMPLEASM_SIMPLEASM_H
