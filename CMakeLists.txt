@@ -1,6 +1,5 @@
 project(sasm DESCRIPTION "sasm intepreter")
 cmake_minimum_required(VERSION 2.4)
-cmake_policy(SET CMP0042 NEW)
 macro(use_c99)
     if (CMAKE_VERSION VERSION_LESS "3.1")
         if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
