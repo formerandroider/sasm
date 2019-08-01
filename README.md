@@ -6,8 +6,10 @@
 
 SimpleASM is distributed as a CMake project. To build, clone and run:
 
-`$ cmake --build . --target sasm_run`
+`$ make`
 
 The run
 
-`$ cmake install` to install into the standard directory.
+`$ make install` to install into the standard directory.
+
+You may need to use the `cmake` command to regenerate the Makefile.
