@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
 
 project(sasm DESCRIPTION "sasm intepreter")
 set(sasm_VERSION_MAJOR 0)
