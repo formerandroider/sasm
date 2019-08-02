@@ -3,12 +3,11 @@
     #include <stdio.h>
     #include <stdlib.h>
 
+    extern int yylex(void);
     void yyerror(char const *estring) {
         fprintf(stderr, "%s\n", estring);
         exit(1);
     }
-
-    extern int yylex(void);
 %}
 
 %code requires {
