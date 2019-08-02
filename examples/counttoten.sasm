@@ -1,0 +1,13 @@
+LDA one
+OUT
+loop LDA cur
+ADD one
+STO cur
+OUT
+SUB ten
+JPZ end
+JPA loop
+end HLT
+one DAT 1
+ten DAT 10
+cur DAT 1

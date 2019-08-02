@@ -1,0 +1,19 @@
+INP
+STO a
+INP
+SUB one
+STO b
+loop LDA sum
+ADD a
+STO sum
+LDA b
+SUB one
+STO b
+JPP loop
+done LDA sum
+OUT
+HLT
+a DAT 0
+b DAT 0
+sum DAT 0
+one DAT 1
