@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 #include "simpleasm.h"
 
 #define INST_HLT 0x00
@@ -208,8 +207,6 @@ unsigned int get_opcode(operation *operation1) {
         fprintf(stderr, "Unknown instruction encountered. Exiting.");
         abort();
     }
-
-    return 0;
 }
 
 int label_array_size_increase(size_t count) {
