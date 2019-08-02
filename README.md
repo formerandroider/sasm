@@ -4,8 +4,12 @@
 
 ## Compiling
 
-SimpleASM is distributed as a CMake project. You need to have `bison` and `flex` installed. To generate the Makefile, clone and run:
+SimpleASM is distributed as a CMake project. You must have the `bison` and `flex` utilities installed.
 
-`$ cmake .`
-
-Then run `make sasm_run` to compile.
+```
+> $ cd sasm
+sasm> $ mkdir build
+sasm/build> $ cd build
+sasm/build> $ cmake ..
+sasm/build> $ make sasm_run
+```
