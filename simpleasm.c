@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "simpleasm.h"
 
 #define INST_HLT 0x00
@@ -22,7 +23,7 @@ unsigned short label_count = 0;
 label_definition **label_definitions;
 
 unsigned short next_address = 0;
-short memory[100];
+signed short memory[100];
 
 unsigned short operation_count = 0;
 operation **operations;
@@ -101,40 +102,45 @@ unsigned int *add_label_placeholder(char *label) {
     return def->address;
 }
 
-void run_instruction(unsigned short instruction, const unsigned short *address, short *accumulator,
+void run_instruction(unsigned short instruction, const unsigned short *address, signed short *accumulator,
                      unsigned short *program_counter) {
 
-    unsigned short program_counter_increment = +1;
+    unsigned short increment_program_counter = 1;
 
     char *input = malloc(sizeof(char) * 100);
+    memset(input, 0, sizeof(char) * 100);
     switch (instruction) {
         case INST_ADD:
-            *accumulator = *accumulator + memory[*address];
+            *accumulator = (short) (*accumulator + memory[*address]);
             break;
         case INST_OUT:
-            printf("%d\n", *accumulator);
+            printf("%hd\n", *accumulator);
             fflush(stdout);
             break;
         case INST_SUB:
-            *accumulator = *accumulator - memory[*address];
+            *accumulator = (short) ((*accumulator) - memory[*address]);
             break;
         case INST_STO:
             memory[*address] = *accumulator;
             break;
         case INST_HLT:
             exit(0);
+            // BREAK
+        case INST_JPZ:
+            if (*accumulator == 0) {
+                *program_counter = *address;
+                increment_program_counter = 0;
+            }
             break;
         case INST_JPP:
-            if (*accumulator < 0) {
-                break;
+            if (*accumulator >= 0) {
+                *program_counter = *address;
+                increment_program_counter = 0;
             }
-        case INST_JPZ:
-            if (*accumulator != 0) {
-                break;
-            }
+            break;
         case INST_JPA:
             *program_counter = *address;
-            program_counter_increment = 0;
+            increment_program_counter = 0;
             break;
         case INST_LDA:
             *accumulator = memory[*address];
@@ -153,13 +159,15 @@ void run_instruction(unsigned short instruction, const unsigned short *address, 
             break;
     }
 
-    if (program_counter_increment) {
+    free(input);
+
+    if (increment_program_counter) {
         (*program_counter)++;
     }
 }
 
 void run_opcodes() {
-    short accumulator = 0;
+    signed short accumulator = 0;
     unsigned short program_counter = 0;
     unsigned short instruction = 0;
     unsigned short address = 0;
